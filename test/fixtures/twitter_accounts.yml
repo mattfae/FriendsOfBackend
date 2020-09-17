@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  twitter_id: 1
+  account_id: 1
+  username: MyString
 
 two:
-  twitter_id: 1
+  account_id: 1
+  username: MyString

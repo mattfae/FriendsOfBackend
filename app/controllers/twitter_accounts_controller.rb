@@ -1,10 +1,15 @@
 class TwitterAccountsController < ApplicationController
 
-    def new
-        twitter_account = TwitterAccount.new
+    skip_before_action :verify_authenticity_token
+
+    def index
+        accounts = TwitterAccount.all
+        render json: accounts
     end
 
     def create
+        account = TwitterAccount.create(username: params[:username])
+        render json: account
     end
 
     def show

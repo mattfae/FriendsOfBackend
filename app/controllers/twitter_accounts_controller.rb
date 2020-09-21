@@ -9,7 +9,8 @@ class TwitterAccountsController < ApplicationController
 
     def create
         account = TwitterAccount.create(username: params[:username])
-        render json: account
+        raw_api_return = account.generate_friends_of
+        render json: raw_api_return
     end
 
     def show

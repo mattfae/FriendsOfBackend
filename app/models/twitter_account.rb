@@ -1,5 +1,6 @@
 class TwitterAccount < ApplicationRecord
 
+    has_many :friendship_analyses
 
     def create_client
         $client = Twitter::REST::Client.new do |config|
@@ -10,6 +11,7 @@ class TwitterAccount < ApplicationRecord
         end
     end
 
+    
     def get_user_by_id(user_id)
         single_user = $client.user(self.username)
     end
@@ -23,25 +25,23 @@ class TwitterAccount < ApplicationRecord
     end
     
 
-    # get a collection of the input user's friends
-
-    # iterate over the list of friends
-    #    for each, get their friends
-    #    add each account to a list
-    #    create a descending list of accounts by number of times they appear on the whole list.
-
-    # get each of those usernames and list them by number of appearances
-
     def generate_friends_of
         create_client
         cursor_object = get_friend_ids_by_user(self.username)
-        first_ten_friends = cursor_object.attrs[:ids].last(10)
+        #TODO: change number of requests back to N.
+        first_ten_friends = cursor_object.attrs[:ids].last(1)
+
         friends_of = []
         first_ten_friends.each do |friend_id|
             friend_cursor = get_friend_ids_by_user(friend_id)
             friends_of.push(*friend_cursor.attrs[:ids])
         end
-        friends_of_count = friends_of.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+        save_friends_of = friends_of
+        friends_of_string = friends_of.to_s
+        friends_of_count = Hash[*friends_of.inject(Hash.new(0)) { |h,v| h[v] += 1; h }.sort_by{|k,v| v}.reverse.flatten]
+        friends_of_json = JSON.generate(friends_of_count)
+        FriendshipAnalysis.create(twitter_account_id: self.id, friends_of:friends_of_string, friends_of: friends_of_count)
     end
+
 
 end

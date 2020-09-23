@@ -2,6 +2,12 @@ class FriendshipAnalysesController < ApplicationController
 
     def create
         analysis = FriendshipAnalysis.create(analysis_params)
+        render json: analysis
+    end
+
+    def show
+        analysis = FriendshipAnalysis.find(params[:id])
+        render json: analysis
     end
 
     private

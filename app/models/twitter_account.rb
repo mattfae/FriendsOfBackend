@@ -19,7 +19,7 @@ class TwitterAccount < ApplicationRecord
 
     
     def get_friends_of(friends)
-        friends_lim = friends.last(1)
+        friends_lim = friends.last(2)
         friends_of = []
         #TODO: change number of requests back to N.
         friends_lim.each do |friend_id|
@@ -31,6 +31,7 @@ class TwitterAccount < ApplicationRecord
         end
         reduce_tally_hash(friends_of)
     end
+
 
     def reduce_tally_hash(hash_array)
         hash_array.reduce({}) {|h,pairs|
@@ -44,8 +45,9 @@ class TwitterAccount < ApplicationRecord
     def generate_friends_of
         create_client
         friends = get_friend_ids_by_user(self.username)
-        friends_of_result = get_friends_of(friends).to_json
+        friends_of_result = get_friends_of(friends)
         friends.to_json
+        friends_of_result.to_json
         FriendshipAnalysis.create(twitter_account_id: self.id, friends_list:friends, friends_of: friends_of_result)
     end
 

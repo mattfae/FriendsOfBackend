@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2020_09_21_170823) do
 
   create_table "friendship_analyses", force: :cascade do |t|
     t.integer "twitter_account_id"
-    t.text "friends_list"
+    t.json "friends_list"
     t.json "friends_of"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

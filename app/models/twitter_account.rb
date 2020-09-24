@@ -17,9 +17,8 @@ class TwitterAccount < ApplicationRecord
     end
 
 
-    
     def get_friends_of(friends)
-        friends_lim = friends.last(2)
+        friends_lim = friends.last(5)
         friends_of = []
         #TODO: change number of requests back to N.
         friends_lim.each do |friend_id|
@@ -43,12 +42,12 @@ class TwitterAccount < ApplicationRecord
 
 
     def generate_friends_of
-        create_client
+        $client || create_client
         friends = get_friend_ids_by_user(self.username)
         friends_of_result = get_friends_of(friends)
         friends.to_json
         friends_of_result.to_json
-        FriendshipAnalysis.create(twitter_account_id: self.id, friends_list:friends, friends_of: friends_of_result)
+        FriendshipAnalysis.create(twitter_account_id: self.id, username: self.username, friends_list:friends, friends_of: friends_of_result)
     end
 
 

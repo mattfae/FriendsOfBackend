@@ -3,21 +3,29 @@ class FriendshipAnalysis < ApplicationRecord
     belongs_to :twitter_account
 
 
-    def multi_friends_filter(friends_of)
-        friends_of.select { |k, v| v.length > 2 }
-    end
-    
-    def sort_val_length(friends_of_hash)
-        sorted_array = friends_of_hash.sort_by { |k, v| -v.length }
+    def collect_return_friends
+        sorted_array = self.friends_of.sort_by { |k, v| -v.length }
         some_friends_of = sorted_array.first(20)
     end
 
-    def collect_return_friends
-        sort_val_length(multi_friends_filter(self.friends_of))
+    def get_users
+        create_client
+        friendships_array = self.collect_return_friends
+        friendships_array.map do |friends_of_rel|
+            new_rel = []
+            friend_of = $client.user(friends_of_rel[0].to_i)
+            new_rel[0] = friend_of.screen_name
+            new_friends = friends_of_rel[1].map do |friend|
+                friend_obj = $client.user(friend)
+                new_friend = friend_obj.screen_name
+            end
+            new_rel.push(new_friends)
+        end
     end
 
 
     private
+
 
     def create_client
         $client = Twitter::REST::Client.new do |config|
@@ -29,3 +37,4 @@ class FriendshipAnalysis < ApplicationRecord
     end
 
 end
+

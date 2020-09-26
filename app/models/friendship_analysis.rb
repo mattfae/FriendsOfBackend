@@ -3,8 +3,13 @@ class FriendshipAnalysis < ApplicationRecord
     belongs_to :twitter_account
 
 
+    def multi_friends_filter(friends_of)
+        friends_of.select { |k, v| v.length > 2 }
+    end
+
     def collect_return_friends
-        sorted_array = self.friends_of.sort_by { |k, v| -v.length }
+        filtered = self.friends_of.select { |k, v| v.length > 2 }
+        sorted_array = filtered.sort_by { |k, v| -v.length }
         some_friends_of = sorted_array.first(20)
     end
 

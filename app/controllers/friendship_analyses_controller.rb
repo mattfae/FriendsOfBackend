@@ -7,7 +7,7 @@ class FriendshipAnalysesController < ApplicationController
 
     def show
         analysis = FriendshipAnalysis.find(params[:id])
-        multi = analysis.collect_return_friends
+        multi = analysis.get_users
         render json: multi
     end
 

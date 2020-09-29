@@ -18,7 +18,7 @@ class TwitterAccount < ApplicationRecord
 
 
     def get_friends_of(friends)
-        friends_lim = friends.last(5)
+        friends_lim = friends.last(13)
         friends_of = []
         #TODO: change number of requests back to N.
         friends_lim.each do |friend_id|

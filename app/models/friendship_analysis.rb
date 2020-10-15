@@ -13,6 +13,7 @@ class FriendshipAnalysis < ApplicationRecord
         some_friends_of = sorted_array.first(20)
     end
 
+    
     def get_users
         create_client
         friendships_array = self.collect_return_friends

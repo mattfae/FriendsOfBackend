@@ -55,11 +55,12 @@ class TwitterAccount < ApplicationRecord
 
     def create_client
         $client = Twitter::REST::Client.new do |config|
-            config.consumer_key        = "7KFbMOq6pVpJjNOJjq0E4tswz"
-            config.consumer_secret     = "ubXurwWBLdvbzi9oKPcvJl8wIGSIyDU5GDGeiY4ACITPG01X5h"
-            config.access_token        = "792601942937579520-DiLZg2eG6wgQPkBTWCz3vt3bUrJQhKt"
-            config.access_token_secret = "1ZW4ch1Pr6DjO71QX8YHXuXDK1yg9H5pGmhYA4K5AQkU3"
+            config.consumer_key        = ENV['CONSUMER_KEY']
+            config.consumer_secret     = ENV['CONSUMER_SECRET']
+            config.access_token        = ENV['ACCESS_TOKEN']
+            config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
         end
     end
 
+    
 end

@@ -13,7 +13,7 @@ class FriendshipAnalysis < ApplicationRecord
         some_friends_of = sorted_array.first(20)
     end
 
-    
+
     def get_users
         create_client
         friendships_array = self.collect_return_friends
@@ -29,17 +29,5 @@ class FriendshipAnalysis < ApplicationRecord
         end
     end
 
-
-    private
-
-
-    def create_client
-        $client = Twitter::REST::Client.new do |config|
-            config.consumer_key        = ENV['CONSUMER_KEY']
-            config.consumer_secret     = ENV['CONSUMER_SECRET']
-            config.access_token        = ENV['ACCESS_TOKEN']
-            config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
-        end
-    end
 
 end

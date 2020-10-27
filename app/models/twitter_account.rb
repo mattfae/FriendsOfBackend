@@ -4,16 +4,16 @@ class TwitterAccount < ApplicationRecord
 
 
     def get_user_by_id(user_id)
-        single_user = $client.user(user_id)
+        single_user = client.user(user_id)
     end
 
     def get_friend_ids_by_user(user_id)
-        cursor_object = $client.friend_ids(user_id)
+        cursor_object = client.friend_ids(user_id)
         friends = cursor_object.attrs[:ids]
     end
 
     def get_follower_ids_by_user(user_id)
-        followers = $client.follower_ids(user_id)
+        followers = client.follower_ids(user_id)
     end
 
 
@@ -42,7 +42,6 @@ class TwitterAccount < ApplicationRecord
 
 
     def generate_friends_of
-        $client || create_client
         friends = get_friend_ids_by_user(self.username)
         friends_of_result = get_friends_of(friends)
         friends.to_json

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_21_170823) do
+ActiveRecord::Schema.define(version: 2020_10_27_192112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 2020_09_21_170823) do
     t.string "username"
     t.json "friends_list"
     t.json "friends_of"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "second_degrees", force: :cascade do |t|
+    t.string "target_username"
+    t.string "subject_username"
+    t.json "target_follows"
+    t.json "subject_followers"
+    t.json "mutuals"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

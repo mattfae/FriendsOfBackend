@@ -9,9 +9,9 @@ class SecondDegreesController < ApplicationController
             target_follows: nil,
             subject_followers: nil,
             mutuals: nil)
-        new_req.get_target_follows
-        new_req.get_subject_followers
-        render json: new_req
+        new_req.collect_data
+        mutuals = new_req.parse_mutuals
+        render json: mutuals
     end
 
 

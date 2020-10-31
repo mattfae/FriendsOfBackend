@@ -9,13 +9,11 @@ class SecondDegree < ApplicationRecord
     def get_subject_followers
         cursor_object = client.follower_ids(self.subject_username)
         self.subject_followers = cursor_object.attrs[:ids]
-        self.subject_followers
     end
 
     def get_mutuals
         mut = self.target_follows & self.subject_followers
         self.mutuals = mut
-        self.mutuals
     end
 
     def collect_data
@@ -29,9 +27,15 @@ class SecondDegree < ApplicationRecord
     end
 
     def parse_mutuals
-        users = self.mutuals.map do |user|
+        self.collect_data
+        mutuals_to_return = Array.new
+        self.mutuals.map do |user|
                     one_user = get_user(user)
+                    name = one_user.name
+                    screen_name = one_user.screen_name
+                    mutuals_to_return << [name, screen_name]
                 end
+        mutuals_to_return
     end
 
 end
